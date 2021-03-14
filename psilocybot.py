@@ -34,6 +34,6 @@ async def dose(ctx, text: str):
 @dose.error
 async def dose_error(ctx, error):
     if isinstance(error, commands.CommandInvokeError):
-        await ctx.send("You don't even know what you're searching for. No drugs for you!")
+        await ctx.send("You don't even know what you're searching for. No drugs for you! (jk, but your command was prob wrong)")
         
 bot.run(TOKEN)
