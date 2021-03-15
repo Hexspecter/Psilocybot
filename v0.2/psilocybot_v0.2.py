@@ -4,13 +4,12 @@ import json
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
-
 # Load token from .env file
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-
 # Init bot prefix and remove default help command
 bot = commands.Bot(command_prefix='>', help_command=None)
+
 
 # Create custom help command
 @bot.command(aliases=['h', 'guide', 'info'])
@@ -21,15 +20,30 @@ async def help(ctx):
     embed.add_field(name=">psychonautwiki", value="Searches info and dosage of a substance from Psychonautwiki, aliases: psychonaut, psych, psw, pswdose. \nUsage: >psychonautwiki LSD", inline=True)
     await ctx.send(embed=embed)
 
-# Fun commands!
+
+# Fun commands! (Self-explanatory, really)
+@bot.command(aliases=['smoke'])
+async def toke(ctx):
+	await ctx.send(f"{ctx.author.name} just lit up, join and smoke with them!")
+@bot.command(aliases=['oil'])
+async def dab(ctx):
+	await ctx.send(f"{ctx.author.name} is about to heat up their nail or banger, join and dab with them!")
+@bot.command(aliases=['shotglass'])
+async def shot(ctx):
+	await ctx.send(f"{ctx.author.name} is about to take a shot, join and take a shot with them!")
+@bot.commands(aliases=['beer', 'cider', 'wine', 'liqueur'])
+async def drink(ctx):
+	await ctx.send(f"{ctx.author.name} is cracking open a cold one, join them and crack open a cold one!")
 
 
+# Proper useful commands! Yay!
 # Tripsitme API json get + sorting
 @bot.command(aliases=['tripsit', 'ts', 'tsdose'])
 async def tripsitme(ctx, text: str):
     search = {'name': text}
     r = requests.get('http://tripbot.tripsit.me/api/tripsit/getDrug', params=search)
     x = r.json()
+    # Sort JSON and prep vars for pretty embeds
     for author in x["data"]:
         desc = author["pretty_name"]
         prop = author["properties"]
@@ -42,6 +56,7 @@ async def tripsitme(ctx, text: str):
 # Psychonautwiki JSON post + sorting
 @bot.command(aliases=['psychonaut', 'psych', 'psw', 'pswdose'])
 async def psychonautwiki(ctx, query: str):
+	# Create header info for POSTing
 	headers = {
 		"accept-type": "application/json",
 		"content-type": "application/json"
@@ -70,77 +85,73 @@ async def psychonautwiki(ctx, query: str):
 			}
 			""" % query
 		}
-
 	# Make it into a JSON dump
 	json_payload = json.dumps(payload)
-
 	# Init API payload for posting
 	api = requests.post("https://api.psychonautwiki.org/?",data=json_payload,headers=headers)
-
 	# Convert data into json
 	y = api.json()
-
 	# Sort through the JSON data
 	for subs in y["data"]["substances"]:
-
 		# Get substance name for embed
 		name = subs["name"]
-
 		# See if a summary exists (usually empty)
 		summary = subs["summary"]
-
 		# Get link for the wiki page
 		link = subs["url"]
-
 		# JSON sorting informations from POST
 		doses = subs["roas"][0]["dose"]
-
 		# Get units
 		units = doses["units"]
 
 		# Get threshold dose info
 		threshold = doses["threshold"]
-
 		# Generate pretty doses (0-999 mg)
 		thresholdstr = str(threshold)
 		thresholdf = thresholdstr, units
 
 		# Get light dose info
 		light = doses["light"]
-		# Generate pretty doses (0-999 mg)
+		# Get light dose min and max values as ints
 		lightmin = light["min"]
 		lightmax = light["max"]
+		# Convert ints to strings
 		lightminstr = str(lightmin)
 		lightmaxstr = str(lightmax)
+		# Create a tuple for joining with units info
 		lightuple = (lightminstr, lightmaxstr)
 		lightx = "-".join(lightuple)
 		lighty = lightx, units
 
 		# Get common dose info
 		common = doses["common"]
-		# Generate pretty doses (0-999 mg)	
+		# Get common dose min and max values as ints
 		commonmin = common["min"]
 		commonmax = common["max"]
+		# Convert ints to strings
 		commonminstr = str(commonmin)
 		commonmaxstr = str(commonmax)
+		# Create a tuple for joining with units info
 		commontuple = (commonminstr, commonmaxstr)
 		commonx = "-".join(commontuple)
 		commony = commonx, units
 
 		# Get strong dose info
 		strong = doses["strong"]
-		# Generate pretty doses (0-999 mg)
+		# Get strong dose min and max values as ints
 		strongmin = strong["min"]
 		strongmax = strong["max"]
+		# Convert ints to strings
 		strongminstr = str(strongmin)
 		strongmaxstr = str(strongmax)
+		# Create a tuple for joining with units info
 		strongtuple = (strongmaxstr, strongminstr)
 		strongx = "-".join(strongtuple)
 		strongy = strongx, units
 
 		# Get heavy dose info
 		heavy = doses["heavy"]
-		# Generate pretty doses (0-999 mg)
+		# Convert int to str
 		heavystr = str(heavy)
 		heavyf = heavystr, units
 
@@ -155,6 +166,7 @@ async def psychonautwiki(ctx, query: str):
 	embed.add_field(name="More information", value=link, inline=False)
 	await ctx.send(embed=embed)
 
+
 # Basic error catching
 @tripsitme.error
 async def tripsitme_error(ctx, error):
@@ -165,6 +177,7 @@ async def tripsitme_error(ctx, error):
 async def psychonautwiki_error(ctx, error):
 	if isinstance(error, commands.CommandInvokeError):
 		await ctx.send("You don't even know what you're searching for. No drugs for you!\n(jk, but your command was probably wrong, try >help")
+
 
 # :) No tokens for you
 bot.run(TOKEN)
