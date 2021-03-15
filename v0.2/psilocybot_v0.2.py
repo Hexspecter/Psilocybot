@@ -43,7 +43,7 @@ async def dab(ctx):
 @bot.command(aliases=['shotglass'])
 async def shot(ctx):
 	await ctx.send(f"{ctx.author.name} is about to take a shot, join and take a shot with them!")
-@bot.commands(aliases=['beer', 'cider', 'wine'])
+@bot.command(aliases=['beer', 'cider', 'wine'])
 async def drink(ctx):
 	await ctx.send(f"{ctx.author.name} is cracking open a cold one, join them and crack open a cold one!")
 
