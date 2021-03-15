@@ -11,13 +11,25 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='>', help_command=None)
 
 
-# Create custom help command
+# Create custom help commands
 @bot.command(aliases=['h', 'guide', 'info'])
 async def help(ctx):
     embed=discord.Embed(title="Commands and info", description="Information about the different commands and arguments", color=0xff00ff)
     embed.add_field(name="Information", value="This bot is using the Tripsit.me and Psychonautwiki APIs for searches and requires specific substance names.\nDatabase: https://drugs.tripsit.me/", inline=False)
     embed.add_field(name=">tripsitme", value="Searches info and dosage of a substance from Tripsit.me, aliases: tripsit, ts, tsdose. \nUsage: >tripsitme LSD", inline=True)
     embed.add_field(name=">psychonautwiki", value="Searches info and dosage of a substance from Psychonautwiki, aliases: psychonaut, psych, psw, pswdose. \nUsage: >psychonautwiki LSD", inline=True)
+    embed.add_field(name=">funhelp", value="Gives you information about the fun commands, aliases: fh, funguide, funinfo", inline=True)
+    embed.add_field(name=">help", value="Shows you this list, aliases: h, guide, info", inline=True)
+    await ctx.send(embed=embed)
+
+@bot.command(aliases=['fh', 'funguide', 'funinfo'])
+async def funhelp(ctx):
+    embed=discord.Embed(title="Fun commands and info", description="Information about the different fun commands", color=0xff00ff)
+    embed.add_field(name="Information", value="These are just the fun commands that I added in for no reason, really.", inline=False)
+    embed.add_field(name=">toke", value="Tags you and tells others you're about to smoke, aliases: smoke.", inline=True)
+    embed.add_field(name=">dab", value="Tags you and tells others you're about to do a dab, aliases: oil.", inline=True)
+    embed.add_field(name=">shot", value="Tags you and tells others you're about to do a shot, aliases: shotglass.", inline=True)
+    embed.add_field(name=">drink", value="Tags you and tells others you're about to drink a lighter drink, aliases: beer, cider, wine.", inline=True)
     await ctx.send(embed=embed)
 
 
@@ -31,7 +43,7 @@ async def dab(ctx):
 @bot.command(aliases=['shotglass'])
 async def shot(ctx):
 	await ctx.send(f"{ctx.author.name} is about to take a shot, join and take a shot with them!")
-@bot.commands(aliases=['beer', 'cider', 'wine', 'liqueur'])
+@bot.commands(aliases=['beer', 'cider', 'wine'])
 async def drink(ctx):
 	await ctx.send(f"{ctx.author.name} is cracking open a cold one, join them and crack open a cold one!")
 
