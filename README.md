@@ -15,5 +15,5 @@ Small and simple Discord bot for pulling harm reduction information from Tripsit
 - [x] Create code for pulling information from Psychonaut wiki API
 - [ ] Create prettier menus
 - [ ] Add commands for usage methods
-- [ ] Create additional "fun" commands, such as toke, dab, drink, shot etc.
+- [x] Create additional "fun" commands, such as toke, dab, drink, shot etc.
 - [ ] Add changeable prefix
