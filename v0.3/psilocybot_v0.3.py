@@ -130,6 +130,8 @@ async def psychonautwiki(ctx, query: str):
 		summary = subs["summary"]
 		# Get link for the wiki page
 		link = subs["url"]
+		# Get the use method
+		method = subs["roas"][0]["name"]
 		# JSON sorting informations from POST
 		doses = subs["roas"][0]["dose"]
 		# Get units
@@ -187,7 +189,7 @@ async def psychonautwiki(ctx, query: str):
 		heavyf = heavystr, units
 	# Create pretty embed
 	embed=discord.Embed(title=name, description=summary, color=0x00ff00)
-	embed.add_field(name="Dosage", value="Average dosages", inline=False)
+	embed.add_field(name="Dosage", value=method, inline=False)
 	embed.add_field(name="Threshold", value=" ".join(thresholdf), inline=True)
 	embed.add_field(name="Light", value=" ".join(lighty), inline=True)
 	embed.add_field(name="Common", value=" ".join(commony), inline=True)
@@ -251,6 +253,8 @@ async def dose(ctx, query: str):
 		# summary = subs["summary"] (We're pulling this from Tripsit.me for this command)
 		# Get link for the wiki page
 		link = subs["url"]
+		# Get the use method
+		method = subs["roas"][0]["name"]
 		# JSON sorting informations from POST
 		doses = subs["roas"][0]["dose"]
 		# Get units
@@ -308,7 +312,7 @@ async def dose(ctx, query: str):
 		heavyf = heavystr, units
 	# Create pretty embed
 	embed=discord.Embed(title=name, description=summ, color=0x00ff00)
-	embed.add_field(name="Dosage", value="Average dosages", inline=False)
+	embed.add_field(name="Dosage", value=method, inline=False)
 	embed.add_field(name="Threshold", value=" ".join(thresholdf), inline=True)
 	embed.add_field(name="Light", value=" ".join(lighty), inline=True)
 	embed.add_field(name="Common", value=" ".join(commony), inline=True)
