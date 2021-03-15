@@ -1,5 +1,5 @@
 # Psilocybot
-Small and simple Discord bot for pulling harm reduction information from Tripsit.me API
+Small and simple Discord bot for pulling harm reduction information from Tripsit.me and PsychonautWiki APIs
 
 
 ## Commands
