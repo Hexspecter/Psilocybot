@@ -25,26 +25,45 @@ async def help(ctx):
 @bot.command(aliases=['fh', 'funguide', 'funinfo'])
 async def funhelp(ctx):
     embed=discord.Embed(title="Fun commands and info", description="Information about the different fun commands", color=0xff00ff)
-    embed.add_field(name="Information", value="These are just the fun commands that I added in for no reason, really.", inline=False)
+    embed.add_field(name="Information", value="These are just the fun commands that I added in for no reason, really.\nStealth variants don't tag you.", inline=False)
     embed.add_field(name=">toke", value="Tags you and tells others you're about to smoke, aliases: smoke.", inline=True)
     embed.add_field(name=">dab", value="Tags you and tells others you're about to do a dab, aliases: oil.", inline=True)
     embed.add_field(name=">shot", value="Tags you and tells others you're about to do a shot, aliases: shotglass.", inline=True)
     embed.add_field(name=">drink", value="Tags you and tells others you're about to drink a lighter drink, aliases: beer, cider, wine.", inline=True)
+    embed.add_field(name="Stealth commands", value="Stealth commands, duh.", inline=False)
+    embed.add_field(name=">stealthtoke", value="Tags you and tells others you're about to smoke, aliases: stealthsmoke.", inline=True)
+    embed.add_field(name=">stealthdab", value="Tags you and tells others you're about to do a dab, aliases: stealthoil.", inline=True)
+    embed.add_field(name=">stealthshot", value="Tags you and tells others you're about to do a shot, aliases: stealthshotglass.", inline=True)
+    embed.add_field(name=">stealthdrink", value="Tags you and tells others you're about to drink a lighter drink, aliases: stealthbeer, stealthcider, stealthwine.", inline=True)
     await ctx.send(embed=embed)
 
 
 # Fun commands! (Self-explanatory, really)
 @bot.command(aliases=['smoke'])
 async def toke(ctx):
-	await ctx.send(f"{ctx.author.name} just lit up, join and smoke with them!")
+	await ctx.send(f"{ctx.message.author.mention} just lit up, join and smoke with them!")
 @bot.command(aliases=['oil'])
 async def dab(ctx):
-	await ctx.send(f"{ctx.author.name} is about to heat up their nail or banger, join and dab with them!")
+	await ctx.send(f"{ctx.message.author.mention} is about to heat up their nail or banger, join and dab with them!")
 @bot.command(aliases=['shotglass'])
 async def shot(ctx):
-	await ctx.send(f"{ctx.author.name} is about to take a shot, join and take a shot with them!")
+	await ctx.send(f"{ctx.message.author.mention} is about to take a shot, join and take a shot with them!")
 @bot.command(aliases=['beer', 'cider', 'wine'])
 async def drink(ctx):
+	await ctx.send(f"{ctx.message.author.mention} is cracking open a cold one, join them and crack open a cold one!")
+
+# Stealth fun commands! (Self-explanatory, really, stealthy)
+@bot.command(aliases=['stealthsmoke'])
+async def stealthtoke(ctx):
+	await ctx.send(f"{ctx.author.name} just lit up, join and smoke with them!")
+@bot.command(aliases=['stealthoil'])
+async def stealthdab(ctx):
+	await ctx.send(f"{ctx.author.name} is about to heat up their nail or banger, join and dab with them!")
+@bot.command(aliases=['stealthshotglass'])
+async def stealthshot(ctx):
+	await ctx.send(f"{ctx.author.name} is about to take a shot, join and take a shot with them!")
+@bot.command(aliases=['stealthbeer', 'stealthcider', 'stealthwine'])
+async def stealthdrink(ctx):
 	await ctx.send(f"{ctx.author.name} is cracking open a cold one, join them and crack open a cold one!")
 
 
