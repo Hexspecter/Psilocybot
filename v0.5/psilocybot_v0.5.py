@@ -147,6 +147,10 @@ async def psychonautwiki(ctx, query: str):
 		duration = subs["roas"][0]["duration"]
 
 		afterglow = duration["afterglow"]
+		if afterglow == None:
+			afterglow = {'min': 0, 'max': 0, 'units': 'Data not found'}
+		else:
+			afterglow = afterglow
 		afterglowmin = afterglow["min"]
 		afterglowmax = afterglow["max"]
 		afterglowunit = afterglow["units"]
@@ -157,6 +161,10 @@ async def psychonautwiki(ctx, query: str):
 		afterglowtuple2 = (afterglowx, afterglowunit)
 
 		comeup = duration["comeup"]
+		if comeup == None:
+			comeup = {'min': 0, 'max': 0, 'units': 'Data not found'}
+		else:
+			comeup = comeup
 		comeupmin = comeup["min"]
 		comeupmax = comeup["max"]
 		comeupunit = comeup["units"]
@@ -171,6 +179,10 @@ async def psychonautwiki(ctx, query: str):
 			comeuptuple2 = (comeupx, comeupunit)
 
 		offset = duration["offset"]
+		if offset == None:
+			offset = {'min': 0, 'max': 0, 'units': 'Data not found'}
+		else:
+			offset = offset
 		offsetmin = offset["min"]
 		offsetmax = offset["max"]
 		offsetunit = offset["units"]
@@ -181,6 +193,10 @@ async def psychonautwiki(ctx, query: str):
 		offtuple2 = (offsetx, offsetunit)
 
 		onset = duration["onset"]
+		if onset == None:
+			onset = {'min': 0, 'max': 0, 'units': 'Data not found'}
+		else:
+			onset = onset
 		onsetmin = onset["min"]
 		onsetmax = onset["max"]
 		onsetunit = onset["units"]
@@ -191,6 +207,10 @@ async def psychonautwiki(ctx, query: str):
 		ontuple2 = (onsetx, onsetunit)
 
 		peak = duration["peak"]
+		if peak == None:
+			peak = {'min': 0, 'max': 0, 'units': 'Data not found'}
+		else:
+			peak = peak
 		peakmin = peak["min"]
 		peakmax = peak["max"]
 		peakunit = peak["units"]
@@ -201,6 +221,10 @@ async def psychonautwiki(ctx, query: str):
 		peaktuple2 = (peakx, peakunit)
 
 		total = duration["total"]
+		if total == None:
+			total = {'min': 0, 'max': 0, 'units': 'Data not found'}
+		else:
+			total = total
 		totalmin = total["min"]
 		totalmax = total["max"]
 		totalunit = total["units"]
@@ -210,8 +234,9 @@ async def psychonautwiki(ctx, query: str):
 		totalx = "-".join(totaltuple1)
 		totaltuple2 = (totalx, totalunit)
 
+
 	# Create pretty embed
-	embed=discord.Embed(title=name, description="", url=link, color=0x00ff00)
+	embed=discord.Embed(title=name, description=summ, url=link, color=0x00ff00)
 	embed.add_field(name="-", value="-----------------", inline=False)
 	embed.add_field(name="Dosage", value=method, inline=False)
 	embed.add_field(name="Threshold", value=" ".join(thresholdf), inline=True)
@@ -448,7 +473,6 @@ async def dose(ctx, query: str):
 		totaltuple1 = (totalminstr, totalmaxstr)
 		totalx = "-".join(totaltuple1)
 		totaltuple2 = (totalx, totalunit)
-		totalfinal = " ".join(totaltuple2)
 
 
 	# Create pretty embed
