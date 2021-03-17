@@ -39,6 +39,34 @@ async def funhelp(ctx):
 	embed.add_field(name=">stealthdrink", value="Tags you and tells others you're about to drink a lighter drink, aliases: stealthbeer, stealthcider, stealthwine.", inline=True)
 	await ctx.send(embed=embed)
 
+# Fun commands! (Self-explanatory, really)
+@bot.command(aliases=['smoke'])
+async def toke(ctx):
+	await ctx.send(f"{ctx.message.author.mention} just lit up, join and smoke with them!")
+@bot.command(aliases=['oil'])
+async def dab(ctx):
+	await ctx.send(f"{ctx.message.author.mention} is about to heat up their nail or banger, join and dab with them!")
+@bot.command(aliases=['shotglass'])
+async def shot(ctx):
+	await ctx.send(f"{ctx.message.author.mention} is about to take a shot, join and take a shot with them!")
+@bot.command(aliases=['beer', 'cider', 'wine'])
+async def drink(ctx):
+	await ctx.send(f"{ctx.message.author.mention} is cracking open a cold one, join them and crack open a cold one!")
+
+# Stealth fun commands! (Self-explanatory, really, stealthy)
+@bot.command(aliases=['stealthsmoke'])
+async def stealthtoke(ctx):
+	await ctx.send(f"{ctx.author.name} just lit up, join and smoke with them!")
+@bot.command(aliases=['stealthoil'])
+async def stealthdab(ctx):
+	await ctx.send(f"{ctx.author.name} is about to heat up their nail or banger, join and dab with them!")
+@bot.command(aliases=['stealthshotglass'])
+async def stealthshot(ctx):
+	await ctx.send(f"{ctx.author.name} is about to take a shot, join and take a shot with them!")
+@bot.command(aliases=['stealthbeer', 'stealthcider', 'stealthwine'])
+async def stealthdrink(ctx):
+	await ctx.send(f"{ctx.author.name} is cracking open a cold one, join them and crack open a cold one!")
+
 # Psychonautwiki JSON post + sorting
 @bot.command(aliases=['psychonaut', 'psych', 'psw', 'pswdose'])
 async def psychonautwiki(ctx, query: str):
@@ -278,9 +306,7 @@ async def dose(ctx, query: str):
 	x = r.json()
 	# Sort JSON and prep vars for pretty embeds
 	for author in x["data"]:
-		desc = author["pretty_name"]
 		prop = author["properties"]
-		dosageas = prop["dose"]
 		summ = prop["summary"]
 	# Create header info for POSTing
 	headers = {
@@ -325,67 +351,42 @@ async def dose(ctx, query: str):
 	y = api.json()
 	# Sort through the JSON data
 	for subs in y["data"]["substances"]:
-		# Get substance name for embed
 		name = subs["name"]
-		# Get link for the wiki page
 		link = subs["url"]
-		# Get the use method
 		method = subs["roas"][0]["name"]
-		# JSON sorting informations from POST
 		doses = subs["roas"][0]["dose"]
-		# Get units
 		units = doses["units"]
-		# Get threshold dose info
 		threshold = doses["threshold"]
-		# Generate pretty doses (0-999 mg)
 		thresholdstr = str(threshold)
 		thresholdf = thresholdstr, units
-		# Get light dose info
 		light = doses["light"]
-		# Get light dose min and max values as ints
 		lightmin = light["min"]
 		lightmax = light["max"]
-		# Convert ints to strings
 		lightminstr = str(lightmin)
 		lightmaxstr = str(lightmax)
-		# Create a tuple for joining with units info
 		lightuple = (lightminstr, lightmaxstr)
 		lightx = "-".join(lightuple)
 		lighty = lightx, units
-		# Get common dose info
 		common = doses["common"]
-		# Get common dose min and max values as ints
 		commonmin = common["min"]
 		commonmax = common["max"]
-		# Convert ints to strings
 		commonminstr = str(commonmin)
 		commonmaxstr = str(commonmax)
-		# Create a tuple for joining with units info
 		commontuple = (commonminstr, commonmaxstr)
 		commonx = "-".join(commontuple)
 		commony = commonx, units
-		# Get strong dose info
 		strong = doses["strong"]
-		# Get strong dose min and max values as ints
 		strongmin = strong["min"]
 		strongmax = strong["max"]
-		# Convert ints to strings
 		strongminstr = str(strongmin)
 		strongmaxstr = str(strongmax)
-		# Create a tuple for joining with units info
 		strongtuple = (strongmaxstr, strongminstr)
 		strongx = "-".join(strongtuple)
 		strongy = strongx, units
-
-		# Get heavy dose info
 		heavy = doses["heavy"]
-		# Convert int to str
 		heavystr = str(heavy)
 		heavyf = heavystr, units
-
-		#	Duration Data Gathering
 		duration = subs["roas"][0]["duration"]
-
 		afterglow = duration["afterglow"]
 		if afterglow == None:
 			afterglow = {'min': 0, 'max': 0, 'units': 'Data not found'}
@@ -399,7 +400,6 @@ async def dose(ctx, query: str):
 		afterglowtuple1 = (afterglowminstr, afterglowmaxstr)
 		afterglowx = "-".join(afterglowtuple1)
 		afterglowtuple2 = (afterglowx, afterglowunit)
-
 		comeup = duration["comeup"]
 		if comeup == None:
 			comeup = {'min': 0, 'max': 0, 'units': 'Data not found'}
@@ -417,7 +417,6 @@ async def dose(ctx, query: str):
 			comeuptuple2 = (comeupx, comeupunit2)
 		else:
 			comeuptuple2 = (comeupx, comeupunit)
-
 		offset = duration["offset"]
 		if offset == None:
 			offset = {'min': 0, 'max': 0, 'units': 'Data not found'}
@@ -431,7 +430,6 @@ async def dose(ctx, query: str):
 		offtuple1 = (offminstr, offmaxstr)
 		offsetx = "-".join(offtuple1)
 		offtuple2 = (offsetx, offsetunit)
-
 		onset = duration["onset"]
 		if onset == None:
 			onset = {'min': 0, 'max': 0, 'units': 'Data not found'}
@@ -445,7 +443,6 @@ async def dose(ctx, query: str):
 		ontuple1 = (onsetminstr, onsetmaxstr)
 		onsetx = "-".join(ontuple1)
 		ontuple2 = (onsetx, onsetunit)
-
 		peak = duration["peak"]
 		if peak == None:
 			peak = {'min': 0, 'max': 0, 'units': 'Data not found'}
@@ -459,7 +456,6 @@ async def dose(ctx, query: str):
 		peaktuple1 = (peakminstr, peakmaxstr)
 		peakx = "-".join(peaktuple1)
 		peaktuple2 = (peakx, peakunit)
-
 		total = duration["total"]
 		if total == None:
 			total = {'min': 0, 'max': 0, 'units': 'Data not found'}
@@ -473,7 +469,6 @@ async def dose(ctx, query: str):
 		totaltuple1 = (totalminstr, totalmaxstr)
 		totalx = "-".join(totaltuple1)
 		totaltuple2 = (totalx, totalunit)
-
 
 	# Create pretty embed
 	embed=discord.Embed(title=name, description=summ, url=link, color=0x00ff00)
