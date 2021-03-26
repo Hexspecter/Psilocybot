@@ -1,4 +1,5 @@
 import discord
+import random
 import requests
 import json
 from discord.ext import commands
@@ -42,7 +43,8 @@ async def funhelp(ctx):
 # Fun commands! (Self-explanatory, really)
 @bot.command(aliases=['smoke'])
 async def toke(ctx):
-	await ctx.send(f"{ctx.message.author.mention} just lit up, join and smoke with them!")
+	tokelist = (f"{ctx.message.author.mention} sparked up a joint, join and smoke with them!", f"{ctx.message.author.mention} grabbed their weed and smoked a bowl, join and smoke with them!", f"{ctx.message.author.mention} just lit up, join and smoke with them!")
+	await ctx.send(random.choice(tokelist))
 @bot.command(aliases=['oil'])
 async def dab(ctx):
 	await ctx.send(f"{ctx.message.author.mention} is about to heat up their nail or banger, join and dab with them!")
