@@ -11,8 +11,9 @@ Cleaner output embeds implemented as well, with better API handling (still not p
 * **Useful commands**
   * `>help`
   * Gives short help of the commands
-  * `>psychonautwiki substance`
-  * Gives dosage info from Psychonautwiki.org
+  * `>dose substance`
+  * Gives prettified dosage information
+  * and general information about substance
 
 ### To do:
 - [x] Create code for pulling information from Psychonaut wiki API
