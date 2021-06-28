@@ -10,7 +10,7 @@ class Admin_tools(commands.Cog):
     @commands.command(aliases=['reload_extensions'])
     @commands.has_guild_permissions(administrator=True)
     async def reload(self, ctx):
-        if ctx.message.author.id == 261548974358528001:
+        if ctx.message.author.id == OWNER_DISCORD_ID_HERE:
             reloaded_extensions = []
             reload_embed=discord.Embed(title="Reloading extensions!", description="Refreshing all extension files, this might take some time")
             reload_embed.add_field(name='List of reloaded extensions:', value=f"No extensions reloaded.", inline=False)
