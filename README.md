@@ -2,6 +2,7 @@
 Small and simple Discord bot for pulling harm reduction information from Tripsit.me and PsychonautWiki APIs
 
 You have to replace few variables in the `commands` folder to get the fork owner ID to proper place
+
 The files in question are:
 * `psi_admintools.py`
 * `psi_substance.py`
