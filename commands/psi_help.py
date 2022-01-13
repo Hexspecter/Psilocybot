@@ -6,9 +6,9 @@ class Help_commands(commands.Cog):
 		self.bot = bot
 
 	@commands.command(aliases=['h', 'guide', 'info'])
-	async def help(ctx):
+	async def help(self, ctx):
 		embed=discord.Embed(title="Commands and info", description="Information about the different commands and arguments", color=0xff00ff)
-		embed.add_field(name="Information", value="This bot is using the Tripsit.me and Psychonautwiki APIs for searches and requires specific substance names.\nDatabases:\nhttps://drugs.tripsit.me/\nhttps://psychonautwiki.org/wiki/Main_Page", inline=False)
+		embed.add_field(name="Information", value="This bot is using Tripsit.me and Psychonautwiki APIs for searches and requires specific substance names.\nDatabases:\nhttps://drugs.tripsit.me/\nhttps://psychonautwiki.org/wiki/Main_Page", inline=False)
 		embed.add_field(name=">dose", value="Prettified information for dose and summary\nAliases: dosage, drugs, drug, substance\nUsage: >dose Caffeine", inline=True)
 		embed.add_field(name=">funhelp", value="Gives you information about the fun commands, aliases: fh, funguide, funinfo", inline=True)
 		embed.add_field(name=">doge", value="Gives you dogecoin (DOGE_USDT) price data from Binance", inline=True)
@@ -17,7 +17,7 @@ class Help_commands(commands.Cog):
 		await ctx.send(embed=embed)
 
 	@commands.command(aliases=['fh', 'funguide', 'funinfo'])
-	async def funhelp(ctx):
+	async def funhelp(self, ctx):
 		embed=discord.Embed(title="Fun commands and info", description="Information about the different fun commands", color=0xff00ff)
 		embed.add_field(name="Information", value="These are just the fun commands that I added in for no reason, really.\nStealth variants don't tag you.", inline=False)
 		embed.add_field(name=">toke", value="Tags you and tells others you're about to smoke, aliases: smoke.", inline=True)
