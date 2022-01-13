@@ -8,47 +8,47 @@ class Fun_commands(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=['smoke'])
-    async def toke(ctx):
+    async def toke(self, ctx):
         tokelist = (f"{ctx.message.author.mention} sparked up a joint, join and smoke with them!", f"{ctx.message.author.mention} grabbed their weed and smoked a bowl, join and smoke with them!", f"{ctx.message.author.mention} just lit up, join and smoke with them!")
         await ctx.send(random.choice(tokelist))
 
     @commands.command(aliases=['oil'])
-    async def dab(ctx):
+    async def dab(self, ctx):
         await ctx.send(f"{ctx.message.author.mention} is about to heat up their nail or banger, join and dab with them!")
 
     @commands.command(aliases=['shotglass'])
-    async def shot(ctx):
+    async def shot(self, ctx):
         await ctx.send(f"{ctx.message.author.mention} is about to take a shot, join and take a shot with them!")
 
     @commands.command(aliases=['opi'])
-    async def opiate(ctx):
+    async def opiate(self, ctx):
         await ctx.send(f"{ctx.message.author.mention} is about to get noddy with some opiates.\nEmpty your grandparents med cabinet and join them with the nods.")
 
     @commands.command(aliases=['beer', 'cider', 'wine', 'cheers'])
-    async def drink(ctx):
+    async def drink(self, ctx):
         await ctx.send(f"{ctx.message.author.mention} is cracking open a cold one, join them and crack open a cold one!")
 
     @commands.command(aliases=['stealthsmoke'])
-    async def stealthtoke(ctx):
+    async def stealthtoke(self, ctx):
         await ctx.send(f"{ctx.author.name} just lit up, join and smoke with them!")
 
     @commands.command(aliases=['stealthoil'])
-    async def stealthdab(ctx):
+    async def stealthdab(self, ctx):
         await ctx.send(f"{ctx.author.name} is about to heat up their nail or banger, join and dab with them!")
 
     @commands.command(aliases=['stealthshotglass'])
-    async def stealthshot(ctx):
+    async def stealthshot(self, ctx):
         await ctx.send(f"{ctx.author.name} is about to take a shot, join and take a shot with them!")
 
     @commands.command(aliases=['stealthbeer', 'stealthcider', 'stealthwine', 'stealthcheers'])
-    async def stealthdrink(ctx):
+    async def stealthdrink(self, ctx):
         await ctx.send(f"{ctx.author.name} is cracking open a cold one, join them and crack open a cold one!")
 
 
     @commands.command(aliases=['hugging'])
-    async def hug(ctx, user):
+    async def hug(self, ctx, user):
         user = ctx.message.mentions[0]
-        guild = bot.get_guild(ctx.guild.id)
+        guild = self.bot.get_guild(ctx.guild.id)
         if guild.get_member(user.id) is not None:
             await ctx.send(f"{user.mention}, you just got hugged by {ctx.message.author.mention}")
         else:
