@@ -1,19 +1,21 @@
 import discord
-import requests
+import aiohttp
+import asyncio
 import json
 from discord.ext import commands
 from json_tools import Cleaner_tools
 
+owner_discord = "replace with your Discord tag"
+
 class Substance_commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
 
     @commands.command(aliases=['dosage', 'drugs', 'drug', 'substance'])
-    async def dose(ctx, query: str):
+    async def dose(self, ctx, query: str):
         search = {'name': query}
-        tripsit = requests.get('http://tripbot.tripsit.me/api/tripsit/getDrug', params=search)
-        tripsit_data = tripsit.json()
-        headers = {
+        header = {
             "accept-type": "application/json",
             "content-type": "application/json"
         }
@@ -67,53 +69,58 @@ class Substance_commands(commands.Cog):
         }
             """ % query
         }
-        json_payload = json.dumps(payload)
-        api = requests.post("https://api.psychonautwiki.org/?",data=json_payload,headers=headers)
-        pswapi = api.json()
-        s_data = pswapi['data']['substances'][0]
-        # pretty_name = tripsit_data['data'][0]['pretty_name']
-        pretty_name = s_data['name']
-        url = s_data['url']
-        summary = tripsit_data['data'][0]['properties']['summary']
-        if 'links' in tripsit_data['data'][0]:
-            experiences = tripsit_data['data'][0]['links']['experiences']
+        dumped_payload = json.dumps(payload)
+        api_url = "https://api.psychonautwiki.org/?"
+        api2_url = "http://tripbot.tripsit.me/api/tripsit/getDrug?"
+        async with self.session.post(api_url, data=dumped_payload, headers=header) as resp:
+            content = await resp.json()
+        async with self.session.get(api2_url, params=search) as tripsit:
+            tripsit_content = await tripsit.json()
+        subs_data = content['data']['substances'][0]
+        pretty_name = subs_data['name']
+        url = subs_data['url']
+        summary = tripsit_content['data'][0]['properties']['summary']
+        t_full = "No data"
+        t_half = "No data"
+        t_zero = "No data"
+        if 'links' in tripsit_content['data'][0]:
+            experiences = tripsit_content['data'][0]['links']['experiences']
         else:
             experiences = "No data"
-        if 'formatted_effects' in tripsit_data['data'][0]:
-            effects = Cleaner_tools.Tools.effects_fix(tripsit_data['data'][0]['formatted_effects'])
+        if 'formatted_effects' in tripsit_content['data'][0]:
+            effects = Cleaner_tools.Tools.effects_fix(tripsit_content['data'][0]['formatted_effects'])
         else:
             effects = "**Effects**\n```\n- No data```"
-        s_tox = Cleaner_tools.Tools.tox_fix(s_data['toxicity'])
-        if s_data['tolerance'] != None:
-            if 'full' in s_data['tolerance'] and s_data['tolerance']['full'] != None:
-                t_full = s_data['tolerance']['full'].capitalize()
-            if 'half' in s_data['tolerance'] and s_data['tolerance']['half'] != None:
-                t_half = s_data['tolerance']['half'].capitalize()
-            if 'zero' in s_data['tolerance'] and s_data['tolerance']['zero'] != None:
-                t_zero = s_data['tolerance']['zero'].capitalize()
-            if 'full' in s_data['tolerance'] and s_data['tolerance']['full'] == None:
+        s_tox = Cleaner_tools.Tools.tox_fix(subs_data['toxicity'])
+        if subs_data['tolerance']:
+            if 'full' in subs_data['tolerance'] and subs_data['tolerance']['full']:
+                t_full = subs_data['tolerance']['full'].capitalize()
+            if 'half' in subs_data['tolerance'] and subs_data['tolerance']['half']:
+                t_half = subs_data['tolerance']['half'].capitalize()
+            if 'zero' in subs_data['tolerance'] and subs_data['tolerance']['zero']:
+                t_zero = subs_data['tolerance']['zero'].capitalize()
+            if 'full' not in subs_data['tolerance']:
                 t_full = "No data"
-            if 'half' in s_data['tolerance'] and s_data['tolerance']['half'] == None:
+            if 'half' not in subs_data['tolerance']:
                 t_half = "No data"
-            if 'zero' in s_data['tolerance'] and s_data['tolerance']['zero'] == None:
+            if 'zero' not in subs_data['tolerance']:
                 t_zero = "No data"
-        if s_data['tolerance'] == None:
+        if not subs_data['tolerance']:
             t_full = "No data"
             t_half = "No data"
             t_zero = "No data"
-        crosstol = Cleaner_tools.Tools.crosstol_fix(s_data['crossTolerances'])
-        categories = "\n".join(f"- {str(x).capitalize()}" for x in tripsit_data['data'][0]['categories'])
-        c_chemical = Cleaner_tools.Tools.class_fix(s_data['class']['chemical'])
-        c_psychoactive = Cleaner_tools.Tools.class_fix(s_data['class']['psychoactive'])
-        roas_fixed = Cleaner_tools.Tools.roas_fix(s_data['roas'])
+        crosstol = Cleaner_tools.Tools.crosstol_fix(subs_data['crossTolerances'])
+        c_chemical = Cleaner_tools.Tools.class_fix(subs_data['class']['chemical'])
+        c_psychoactive = Cleaner_tools.Tools.class_fix(subs_data['class']['psychoactive'])
+        roas_fixed = Cleaner_tools.Tools.roas_fix(subs_data['roas'])
         doses = roas_fixed[0]
         durations = roas_fixed[1]
-        c_uncertain = Cleaner_tools.Tools.combo_fix(s_data['uncertainInteractions'])
-        c_unsafe = Cleaner_tools.Tools.combo_fix(s_data['unsafeInteractions'])
-        c_dangerous = Cleaner_tools.Tools.combo_fix(s_data['dangerousInteractions'])
-        if s_data['addictionPotential'] != None:
-            addictivity = s_data['addictionPotential'].capitalize()
-        if s_data['addictionPotential'] == None:
+        c_uncertain = Cleaner_tools.Tools.combo_fix(subs_data['uncertainInteractions'])
+        c_unsafe = Cleaner_tools.Tools.combo_fix(subs_data['unsafeInteractions'])
+        c_dangerous = Cleaner_tools.Tools.combo_fix(subs_data['dangerousInteractions'])
+        if subs_data['addictionPotential']:
+            addictivity = subs_data['addictionPotential'].capitalize()
+        if not subs_data['addictionPotential']:
             addictivity = "No data"
         embed2=discord.Embed(title=pretty_name, url=url, description=f"{summary}")
         embed2.set_author(name="-- Psilocybot --", url="https://github.com/Hexspecter/Psilocybot")
@@ -128,5 +135,15 @@ class Substance_commands(commands.Cog):
         embed2.add_field(name='\u200b', value=f"""{effects}""", inline=True)
         await ctx.send(embed=embed2)
 
+    @dose.error
+    async def dose_error(self, ctx, error):
+        if isinstance(error, Exception):
+            print(error)
+            embed=discord.Embed(title="Error or Bug found!", description="Whoops, something went wrong here")
+            embed.add_field(name="Substance not found or databases down", value=f"Please ping {owner_discord} if problems persist and the substance can be found from PsychonautWiki", inline=False)
+            embed.add_field(name="Please send this string when reporting an error", value=f"`Error message: {error}, raised by [{ctx.message.content}]`", inline=False)
+            embed.add_field(name="Please don't try spamming the command", value="If the command gave this error, it's more than likely that the database is either down, or the substance was not found from the database", inline=False)
+            await ctx.send(embed=embed)
+        
 def setup(bot):
     bot.add_cog(Substance_commands(bot))
