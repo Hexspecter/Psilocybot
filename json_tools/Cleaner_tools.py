@@ -20,6 +20,7 @@ class Tools:
         else:
             return "No data"
 
+
     def roas_fix(roas):
         durations = f""
         doses = f""
@@ -52,15 +53,20 @@ class Tools:
                 durations += f"{temp_dur_text}"
         return doses, durations
 
+
     def dose_fix(dose):
         dosage_fix = f""
-        for dosage in dose:
-            no_string = ['units', 'threshold', 'heavy']
-            if dosage in no_string and dosage != 'units':
-                dosage_fix += f"{dosage.capitalize()}:\n- {dose[dosage]} {dose['units']}\n\n"
-            if dosage not in no_string and dosage != 'units':
-                dosage_fix += f"{dosage.capitalize()}:\n- {dose[dosage]['min']}-{dose[dosage]['max']} {dose['units']}\n\n"
-        return dosage_fix
+        if not dose:
+            dosage_fix += "No data"
+            return dosage_fix
+        if dose:
+            for dosage in dose:
+                no_string = ['units', 'threshold', 'heavy']
+                if dosage in no_string and dosage != 'units':
+                    dosage_fix += f"{dosage.capitalize()}:\n- {dose[dosage]} {dose['units']}\n\n"
+                if dosage not in no_string and dosage != 'units':
+                    dosage_fix += f"{dosage.capitalize()}:\n- {dose[dosage]['min']}-{dose[dosage]['max']} {dose['units']}\n\n"
+            return dosage_fix
 
     def duration_fix(durations):
         durations_fix = f""
