@@ -12,7 +12,6 @@ class Help_commands(commands.Cog):
 		embed.add_field(name=">dose", value="Prettified information for dose and summary\nAliases: dosage, drugs, drug, substance\nUsage: >dose Caffeine", inline=True)
 		embed.add_field(name=">funhelp", value="Gives you information about the fun commands, aliases: fh, funguide, funinfo", inline=True)
 		embed.add_field(name=">doge", value="Gives you dogecoin (DOGE_USDT) price data from Binance", inline=True)
-		embed.add_field(name=">btc", value="Gives you bitcoin (BTC_USD) price data from Binance", inline=True)
 		embed.add_field(name=">help", value="Shows you this list, aliases: h, guide, info", inline=True)
 		await ctx.send(embed=embed)
 
